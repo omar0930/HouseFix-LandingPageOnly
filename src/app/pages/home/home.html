@@ -1,0 +1,683 @@
+<section class="relative isolate">
+  <
+  <div class="absolute inset-0 -z-10">
+    <img
+      [src]="bgUrl"
+      alt="Plumbing background"
+      class="w-full h-full object-cover"
+    />
+
+    <div class="absolute inset-0 bg-slate-900/50"></div>
+  </div>
+
+  <div
+    class="mx-auto max-w-7xl px-4 py-20 sm:py-24 md:py-28 flex flex-col items-center text-center text-white"
+  >
+    <div class="w-full max-w-[548px]">
+      <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold leading-tight">
+        Plumbing Experts Right<br class="hidden sm:inline" />
+        at Your Doorstep
+      </h1>
+
+      <p class="mt-4 text-white/90 text-base sm:text-lg">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
+        veniam, quis nostrud exercitation ullamco
+      </p>
+
+      <div
+        class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-[60px]"
+      >
+        <a
+          routerLink="/estimate"
+          class="inline-flex items-center justify-center rounded-xl px-8 py-4 text-base font-semibold text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-300 shadow-lg transition"
+        >
+          Request a Job Estimate
+        </a>
+
+        <a
+          routerLink="/pricing"
+          class="inline-flex items-center justify-center rounded-xl px-8 py-4 text-base font-semibold text-white border border-white/70 bg-transparent hover:bg-white/10 focus:outline-none focus:ring-4 focus:ring-white/40 transition"
+        >
+          Pricing Plans
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- form section  -->
+<section class="mx-auto max-w-7xl px-4 py-16">
+  <div class="grid lg:grid-cols-2 bg-white rounded-2xl overflow-hidden shadow">
+    <!-- LEFT: dark panel with circles + heading -->
+    <div
+      class="relative bg-[#0b1a2a] text-white p-10 sm:p-14 flex items-center"
+    >
+      <!-- decorative circles -->
+      <div
+        class="pointer-events-none absolute -top-10 -left-10 h-64 w-64 rounded-full ring-2 ring-blue-400/40"
+      ></div>
+      <div
+        class="pointer-events-none absolute top-24 -left-8 h-20 w-20 rounded-full bg-blue-300/50"
+      ></div>
+      <div
+        class="pointer-events-none absolute bottom-12 left-16 h-56 w-56 rounded-full ring-2 ring-blue-400/40"
+      ></div>
+      <div
+        class="pointer-events-none absolute bottom-0 left-40 h-40 w-40 rounded-full ring-2 ring-blue-400/40"
+      ></div>
+
+      <h2 class="relative text-3xl sm:text-4xl font-bold leading-tight">
+        We’d Love to<br />Hear from You
+      </h2>
+    </div>
+
+    <!-- RIGHT: form -->
+    <div class="p-8 sm:p-12">
+      <h3 class="text-2xl sm:text-3xl font-bold mb-8">
+        Request Your Services Today
+      </h3>
+
+      <form
+        [formGroup]="form"
+        (ngSubmit)="submit()"
+        class="grid grid-cols-1 md:grid-cols-2 gap-5"
+      >
+        <!-- First / Last -->
+        <div>
+          <label class="block text-sm font-medium mb-2">First Name</label>
+          <input
+            formControlName="firstName"
+            placeholder="John"
+            class="w-full rounded-xl border px-4 py-3 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-4 [box-shadow:none]"
+            [ngClass]="{
+              'border-blue-400 focus:ring-blue-100': !isInvalid('firstName'),
+              'border-red-500 focus:ring-red-100': isInvalid('firstName')
+            }"
+          />
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium mb-2">Last Name</label>
+          <input
+            formControlName="lastName"
+            placeholder="Doe"
+            class="w-full rounded-xl border px-4 py-3 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-4"
+            [ngClass]="{
+              'border-blue-400 focus:ring-blue-100': !isInvalid('lastName'),
+              'border-red-500 focus:ring-red-100': isInvalid('lastName')
+            }"
+          />
+        </div>
+
+        <!-- Phone / Email -->
+        <div>
+          <label class="block text-sm font-medium mb-2">Phone Number</label>
+          <input
+            formControlName="phone"
+            placeholder="+123 000 000"
+            class="w-full rounded-xl border px-4 py-3 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-4"
+            [ngClass]="{
+              'border-blue-400 focus:ring-blue-100': !isInvalid('phone'),
+              'border-red-500 focus:ring-red-100': isInvalid('phone')
+            }"
+          />
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium mb-2">Email</label>
+          <input
+            type="email"
+            formControlName="email"
+            placeholder="johndoe@gmail.com"
+            class="w-full rounded-xl border px-4 py-3 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-4"
+            [ngClass]="{
+              'border-blue-400 focus:ring-blue-100': !isInvalid('email'),
+              'border-red-500 focus:ring-red-100': isInvalid('email')
+            }"
+          />
+        </div>
+
+        <!-- Address (full width) -->
+        <div class="md:col-span-2">
+          <label class="block text-sm font-medium mb-2">Your Address</label>
+          <input
+            formControlName="address"
+            placeholder="3249 Henery Street, Wichita"
+            class="w-full rounded-xl border px-4 py-3 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-4 border-blue-400 focus:ring-blue-100"
+          />
+        </div>
+
+        <!-- Message (full width) -->
+        <div class="md:col-span-2">
+          <label class="block text-sm font-medium mb-2">Message</label>
+          <textarea
+            rows="5"
+            formControlName="message"
+            placeholder="Enter your message"
+            class="w-full rounded-xl border px-4 py-3 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-4 border-blue-400 focus:ring-blue-100"
+          ></textarea>
+        </div>
+
+        <!-- Submit -->
+        <div class="md:col-span-2">
+          <button
+            type="submit"
+            class="w-full rounded-xl px-6 py-3.5 font-semibold text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-200"
+          >
+            Submit
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- Our Services -->
+<section id="services" class="mx-auto max-w-7xl px-4 py-20">
+  <div class="flex flex-col items-center justify-center text-center">
+    <span class="inline-flex items-center gap-3 text-blue-600 font-medium">
+      What We Do <span class="inline-block h-px w-10 bg-blue-500"></span>
+    </span>
+    <h2 class="mt-3 text-3xl sm:text-4xl md:text-5xl font-bold text-slate-900">
+      We Do The Best Plumbing Service<br class="hidden sm:inline" />
+      &amp; Maintenance
+    </h2>
+  </div>
+
+  <div
+    class="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 place-items-center"
+  >
+    <article
+      *ngFor="let s of services"
+      class="group h-full w-full max-w-xs rounded-2xl ring-1 ring-slate-200 bg-white text-slate-900 shadow-sm overflow-hidden transition hover:bg-blue-600 hover:ring-blue-300 hover:shadow-md flex flex-col items-center mx-auto"
+    >
+      <div class="flex h-full flex-col p-8 items-center text-center">
+        <!-- Icon -->
+        <div
+          class="text-4xl mb-6 text-blue-600 transition group-hover:text-white flex justify-center"
+        >
+          <i [class]="faPrefix + ' ' + s.icon"></i>
+        </div>
+
+        <!-- Title -->
+        <h3 class="text-xl font-semibold transition group-hover:text-white">
+          {{ s.title }}
+        </h3>
+
+        <!-- Description -->
+        <p
+          class="mt-3 text-sm leading-relaxed text-slate-600 transition group-hover:text-white/90"
+        >
+          {{ s.desc }}
+        </p>
+
+        <!-- CTA -->
+        <div class="mt-8 pt-2">
+          <a
+            [routerLink]="s.link"
+            class="inline-flex items-center gap-3 font-semibold text-blue-600 transition group-hover:text-white"
+          >
+            Learn More
+            <span class="transition-transform group-hover:translate-x-1">
+              <i [class]="faPrefix + ' fa-arrow-right-long'"></i>
+            </span>
+          </a>
+        </div>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- About / Benefits -->
+<section class="mx-auto max-w-7xl px-4 py-20">
+  <div class="grid items-center gap-12 lg:grid-cols-2">
+    <!-- LEFT: image with blue accents -->
+    <div class="relative max-w-xl">
+      <img
+        src="/images/waterandcup.jpg"
+        alt="Plumbing care"
+        class="relative z-10 w-full rounded-md shadow"
+      />
+      <!-- bottom accent -->
+      <div
+        class="absolute -bottom-4 left-0 h-4 w-[80%] rounded-md bg-blue-600"
+      ></div>
+      <!-- right accent -->
+      <div
+        class="absolute top-6 -right-4 h-[85%] w-4 rounded-md bg-blue-600"
+      ></div>
+    </div>
+
+    <!-- RIGHT: text + bullets + CTA -->
+    <div>
+      <h2 class="text-3xl md:text-5xl font-bold text-slate-900">
+        Taking regular plumbing care will<br class="hidden md:block" />
+        save you time and money
+      </h2>
+
+      <p class="mt-4 text-slate-600">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
+        veniam, quis nostrud exercitation ullamco
+      </p>
+
+      <ul class="mt-6 space-y-4">
+        <li class="flex items-start gap-3">
+          <i class="fa-regular fa-circle-check text-blue-600 text-xl mt-1"></i>
+          <span class="font-semibold text-slate-900"
+            >Praesent Sodales Orci</span
+          >
+        </li>
+        <li class="flex items-start gap-3">
+          <i class="fa-regular fa-circle-check text-blue-600 text-xl mt-1"></i>
+          <span class="font-semibold text-slate-900">Curabitur Dignissim</span>
+        </li>
+        <li class="flex items-start gap-3">
+          <i class="fa-regular fa-circle-check text-blue-600 text-xl mt-1"></i>
+          <span class="font-semibold text-slate-900">Nulla Condimentum</span>
+        </li>
+      </ul>
+
+      <a
+        routerLink="/about"
+        class="mt-8 inline-flex items-center gap-2 rounded-xl bg-blue-600 px-6 py-3 font-semibold text-white hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-200"
+      >
+        More About Us
+        <i class="fa-solid fa-arrow-right text-sm"></i>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- Pricing Plans -->
+<section class="bg-blue-50/60">
+  <div class="mx-auto max-w-7xl px-4 py-20">
+    <!-- Heading -->
+    <div class="text-center">
+      <span class="inline-flex items-center gap-3 text-blue-600 font-medium">
+        Pricing Plans
+        <span class="inline-block h-px w-10 bg-blue-500"></span>
+      </span>
+      <h2
+        class="mt-3 text-3xl sm:text-4xl md:text-5xl font-bold text-slate-900"
+      >
+        Affordable Pricing Plans
+      </h2>
+
+      <!-- Toggle -->
+      <div class="mt-6 inline-flex items-center gap-3 text-slate-700">
+        <span [class.text-blue-700]="billing === 'monthly'">Monthly</span>
+        <label class="relative inline-flex cursor-pointer items-center">
+          <input
+            type="checkbox"
+            class="peer sr-only"
+            (change)="billing = $event.target.checked ? 'annual' : 'monthly'"
+          />
+          <div
+            class="h-6 w-11 rounded-full bg-slate-300 peer-checked:bg-blue-600 transition"
+          ></div>
+          <div
+            class="absolute left-0.5 top-0.5 h-5 w-5 rounded-full bg-white transition peer-checked:translate-x-5"
+          ></div>
+        </label>
+        <span [class.text-blue-700]="billing === 'annual'">Annual</span>
+      </div>
+    </div>
+
+    <!-- Cards -->
+    <div class="mt-12 grid grid-cols-1 gap-6 lg:grid-cols-3">
+      <article
+        *ngFor="let p of plans; trackBy: trackByIndex"
+        class="group rounded-2xl border shadow-sm overflow-hidden transition"
+        [ngClass]="{
+          'bg-blue-600 text-white border-blue-600': p.featured,
+          'bg-white text-slate-900 border-blue-200 hover:shadow-md': !p.featured
+        }"
+      >
+        <div class="p-8 sm:p-10 flex h-full flex-col">
+          <!-- Title -->
+          <h3
+            class="text-2xl font-semibold"
+            [ngClass]="{
+              'text-white': p.featured,
+              'text-slate-900': !p.featured
+            }"
+          >
+            {{ p.name }}
+          </h3>
+
+          <!-- Price -->
+          <div class="mt-6 flex items-end gap-2">
+            <div
+              class="text-5xl font-bold leading-none"
+              [ngClass]="{
+                'text-white': p.featured,
+                'text-blue-600': !p.featured
+              }"
+            >
+              ${{ getPrice(p) }}
+            </div>
+            <div class="pb-1 font-semibold opacity-80">{{ priceSuffix }}</div>
+          </div>
+
+          <!-- Features -->
+          <ul class="mt-6 space-y-4">
+            <li
+              *ngFor="let f of p.features"
+              class="flex items-start gap-3"
+              [ngClass]="{
+                'text-white/90': p.featured,
+                'text-slate-700': !p.featured
+              }"
+            >
+              <i
+                class="fa-regular fa-circle-check text-lg mt-0.5"
+                [ngClass]="{
+                  'text-white': p.featured,
+                  'text-blue-600': !p.featured
+                }"
+              ></i>
+              <span>{{ f }}</span>
+            </li>
+          </ul>
+
+          <!-- CTA -->
+          <div class="mt-8 pt-2">
+            <a
+              routerLink="/checkout"
+              class="inline-flex items-center justify-center rounded-xl px-6 py-3 font-semibold transition"
+              [ngClass]="{
+                'bg-blue-900 text-white hover:bg-blue-950': p.featured,
+                'border border-blue-300 text-slate-800 hover:bg-blue-50':
+                  !p.featured
+              }"
+            >
+              Get Started
+            </a>
+          </div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- Recent Works -->
+<section class="mx-auto max-w-7xl px-4 py-20">
+  <!-- Heading -->
+  <div class="text-center">
+    <span class="inline-flex items-center gap-3 text-blue-600 font-medium">
+      Featured Projects <span class="inline-block h-px w-10 bg-blue-500"></span>
+    </span>
+    <h2 class="mt-3 text-3xl sm:text-4xl md:text-5xl font-bold text-slate-900">
+      Our Recent Works
+    </h2>
+    <p class="mt-4 text-slate-600 max-w-3xl mx-auto">
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus semper
+      placerat metus. Cras venenatis mi non purus dictum, non tincidunt ligula
+      varius.
+    </p>
+  </div>
+
+  <!-- Tabs -->
+  <div class="mt-8">
+    <div
+      class="grid grid-cols-2 sm:grid-cols-4 rounded-xl overflow-hidden ring-1 ring-blue-300"
+    >
+      <button
+        *ngFor="let c of categories"
+        (click)="setCategory(c.key)"
+        class="py-4 px-6 text-center font-medium border-r last:border-r-0 transition"
+        [ngClass]="{
+          'bg-blue-600 text-white': activeCat === c.key,
+          'bg-white text-blue-700 hover:bg-blue-50': activeCat !== c.key
+        }"
+      >
+        {{ c.label }}
+      </button>
+    </div>
+  </div>
+
+  <!-- Slider -->
+  <div class="mt-8 relative">
+    <!-- Left arrow -->
+    <button
+      (click)="prev()"
+      [disabled]="sliderIndex === 0"
+      class="hidden md:flex absolute -left-8 top-1/2 -translate-y-1/2 h-10 w-10 items-center justify-center rounded-full border border-blue-300 text-blue-600 disabled:opacity-40"
+      aria-label="Previous"
+    >
+      <i class="fa-solid fa-chevron-left"></i>
+    </button>
+
+    <!-- Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+      <article
+        *ngFor="let p of visibleProjects(); trackBy: trackByIdx"
+        class="relative rounded-xl overflow-hidden shadow-sm"
+      >
+        <img
+          [src]="p.img"
+          [alt]="p.title"
+          class="h-[360px] w-full object-cover"
+        />
+        <div class="absolute inset-0 bg-black/30"></div>
+        <div
+          class="absolute inset-0 flex flex-col items-center justify-end p-6 text-center"
+        >
+          <h3 class="text-white text-2xl font-semibold drop-shadow">
+            {{ p.title }}
+          </h3>
+          <div class="mt-1 text-white/90 text-sm">{{ p.tag }}</div>
+        </div>
+      </article>
+    </div>
+
+    <!-- Right arrow -->
+    <button
+      (click)="next()"
+      [disabled]="sliderIndex === maxIndex"
+      class="hidden md:flex absolute -right-8 top-1/2 -translate-y-1/2 h-10 w-10 items-center justify-center rounded-full bg-blue-600 text-white disabled:opacity-40"
+      aria-label="Next"
+    >
+      <i class="fa-solid fa-chevron-right"></i>
+    </button>
+  </div>
+</section>
+
+<!-- Stats strip -->
+<section #statsSection class="relative isolate">
+  <!-- background image -->
+  <div class="absolute inset-0 -z-10">
+    <img
+      src="/images/05 - Image-Containerr.png"
+      alt="Stats background"
+      class="w-full h-full object-cover"
+    />
+    <div class="absolute inset-0 bg-blue-900/70"></div>
+  </div>
+
+  <div class="mx-auto max-w-7xl px-4 py-16 text-white">
+    <h3 class="text-2xl sm:text-3xl md:text-4xl font-bold text-center">
+      Providing excellent services for the last 25 years
+    </h3>
+
+    <div class="mt-10 grid grid-cols-2 md:grid-cols-4 gap-6">
+      <div
+        *ngFor="let s of stats"
+        class="flex flex-col items-center text-center"
+      >
+        <i [class]="faPrefix + ' ' + s.icon" class="text-3xl md:text-4xl"></i>
+        <div class="mt-3 text-3xl font-bold">{{ s.display }}+</div>
+        <div class="text-sm opacity-90">{{ s.label }}</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Customer Review -->
+<section class="mx-auto max-w-7xl px-4 py-20">
+  <div class="text-center">
+    <span class="inline-flex items-center gap-3 text-blue-600 font-medium">
+      Customer Review <span class="inline-block h-px w-10 bg-blue-500"></span>
+    </span>
+    <h2 class="mt-3 text-3xl sm:text-4xl md:text-5xl font-bold text-slate-900">
+      Our Partner & Customer Was Give<br class="hidden sm:block" />
+      The Best Review For Us
+    </h2>
+  </div>
+
+  <div class="mt-12 relative">
+    <!-- arrows -->
+    <button
+      (click)="prevTest()"
+      class="hidden md:flex absolute -left-6 top-1/2 -translate-y-1/2 h-10 w-10 items-center justify-center rounded-full border border-blue-300 text-blue-600 hover:bg-blue-50"
+      aria-label="Previous"
+    >
+      <i class="fa-solid fa-chevron-left"></i>
+    </button>
+
+    <button
+      (click)="nextTest()"
+      class="hidden md:flex absolute -right-6 top-1/2 -translate-y-1/2 h-10 w-10 items-center justify-center rounded-full bg-blue-600 text-white hover:bg-blue-700"
+      aria-label="Next"
+    >
+      <i class="fa-solid fa-chevron-right"></i>
+    </button>
+
+    <!-- content -->
+    <div class="grid gap-8 lg:grid-cols-2 items-center">
+      <!-- photo -->
+      <div class="rounded-xl overflow-hidden shadow">
+        <img
+          [src]="currentTest().img"
+          [alt]="currentTest().name"
+          class="w-full h-[360px] object-cover"
+        />
+      </div>
+
+      <!-- text -->
+      <div>
+        <i class="fa-solid fa-quote-left text-3xl text-blue-600"></i>
+        <p class="mt-4 text-slate-700 leading-relaxed">
+          {{ currentTest().text }}
+        </p>
+
+        <div class="mt-6 font-semibold text-blue-700">
+          {{ currentTest().name }} –
+          <span class="font-normal text-slate-700">{{
+            currentTest().role
+          }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="mx-auto max-w-7xl px-4 py-20">
+  <div class="text-left md:text-center">
+    <span class="inline-flex items-center gap-3 text-blue-600 font-medium">
+      Question And Answer
+      <span class="inline-block h-px w-10 bg-blue-500"></span>
+    </span>
+    <h2 class="mt-3 text-3xl sm:text-4xl md:text-5xl font-bold text-slate-900">
+      Frequently Asked Question
+    </h2>
+    <p class="mt-3 text-slate-600 max-w-2xl md:mx-auto">
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus,
+      luctus nec ullamcorper mattis.
+    </p>
+  </div>
+
+  <div class="mt-10 grid gap-6 md:grid-cols-2">
+    <!-- Left: list-only (first 6) -->
+    <div class="space-y-4">
+      <button
+        *ngFor="let f of faqs | slice : 0 : 6; let i = index"
+        (click)="openFaqIndex = i"
+        class="w-full rounded-xl bg-white ring-1 ring-slate-200 hover:ring-blue-300 shadow-sm px-5 py-4 flex items-center justify-between text-left transition"
+      >
+        <span class="font-medium text-slate-900">{{ f.q }}</span>
+        <i class="fa-solid fa-chevron-right text-slate-500"></i>
+      </button>
+    </div>
+
+    <!-- Right: accordion (remaining items) -->
+    <div class="space-y-4">
+      <div
+        *ngFor="let f of faqs | slice : 6; let i = index"
+        class="rounded-xl bg-white ring-1 ring-slate-200 shadow-sm overflow-hidden"
+      >
+        <button
+          class="w-full px-5 py-4 flex items-center justify-between text-left"
+          (click)="toggleFaq(i + 6)"
+        >
+          <span class="font-medium text-slate-900">{{ f.q }}</span>
+          <i
+            class="fa-solid"
+            [ngClass]="
+              isOpen(i + 6)
+                ? 'fa-chevron-up text-blue-600'
+                : 'fa-chevron-right text-slate-500'
+            "
+          ></i>
+        </button>
+
+        <div *ngIf="isOpen(i + 6)" class="px-5 pb-4 -mt-2 text-slate-600">
+          {{ f.a }}
+        </div>
+      </div>
+
+      <!-- Have a Question card -->
+      <div
+        class="rounded-xl bg-white ring-1 ring-blue-200 p-5 flex items-start justify-between gap-4"
+      >
+        <div>
+          <h4 class="text-blue-700 font-semibold">Have a Question ?</h4>
+          <p class="text-slate-600 mt-1">
+            If you have a question that wasn’t included here, feel free to
+            contact us.
+          </p>
+        </div>
+        <a
+          routerLink="/contact"
+          class="shrink-0 text-blue-600 font-semibold hover:text-blue-700"
+          >Submit Now</a
+        >
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Newsletter -->
+<section class="bg-blue-50/70">
+  <div class="mx-auto max-w-7xl px-4 py-16 text-center">
+    <h2 class="text-3xl md:text-4xl font-bold text-slate-900">
+      Get quick tips and tricks to fix your daily plumbing
+    </h2>
+    <p class="mt-2 text-slate-600">
+      Get the latest tips and tricks, updates, offers and discount right into
+      your mailbox.
+    </p>
+
+    <form
+      [formGroup]="newsletterForm"
+      (ngSubmit)="subscribe()"
+      class="mt-6 max-w-md mx-auto"
+    >
+      <input
+        type="email"
+        formControlName="email"
+        placeholder="Your Email"
+        class="w-full rounded-xl border border-blue-300 bg-white px-4 py-3 placeholder-slate-400 focus:outline-none focus:ring-4 focus:ring-blue-100"
+      />
+      <button
+        type="submit"
+        class="mt-4 w-full rounded-xl bg-blue-600 px-6 py-3 font-semibold text-white hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-200"
+      >
+        Subscribe Now
+      </button>
+    </form>
+  </div>
+</section>
