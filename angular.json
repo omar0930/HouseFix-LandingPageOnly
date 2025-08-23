@@ -23,7 +23,7 @@
               }
             ],
             "styles": ["src/styles.css"],
-            "scripts": ["../Housefix/node_modules/flowbite/dist/flowbite.js"]
+            "scripts": ["/node_modules/flowbite/dist/flowbite.js"]
           },
           "configurations": {
             "production": {
