@@ -9,97 +9,62 @@ import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 
+// Reusable UI components
+import { HeroSplitComponent } from '../../shared/ui/hero-split/hero-split';
+import {
+  PricingPlansComponent,
+  Plan,
+} from '../../shared/ui/pricing-plans/pricing-plans/pricing-plans';
+import {
+  WorkGridComponent,
+  WorkCategory,
+  WorkItem,
+} from '../../shared/ui/work-grid/work-grid';
+
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, RouterLink, ReactiveFormsModule],
+  imports: [
+    CommonModule,
+    RouterLink,
+    ReactiveFormsModule,
+    HeroSplitComponent,
+    PricingPlansComponent,
+    WorkGridComponent,
+  ],
   templateUrl: './home.html',
   styleUrls: ['./home.css'],
 })
 export class Home implements AfterViewInit {
-  // ------------ Stats (counters) ------------
-  @ViewChild('statsSection', { static: false })
-  statsSection!: ElementRef<HTMLDivElement>;
-  statsAnimated = false;
-
-  stats = [
-    {
-      label: 'Happy Customers',
-      value: 8714,
-      icon: 'fa-people-group',
-      display: 0,
-    },
-    {
-      label: 'Installed Units',
-      value: 8714,
-      icon: 'fa-screwdriver-wrench',
-      display: 0,
-    },
-    { label: 'Home Served', value: 8714, icon: 'fa-building', display: 0 },
-    { label: 'Professional', value: 8714, icon: 'fa-user-gear', display: 0 },
-  ];
-
-  ngAfterViewInit() {
-    // Animate counters when the stats section enters the viewport
-    const obs = new IntersectionObserver(
-      (entries) => {
-        if (entries.some((e) => e.isIntersecting) && !this.statsAnimated) {
-          this.statsAnimated = true;
-          this.animateStats();
-          obs.disconnect();
-        }
-      },
-      { threshold: 0.3 }
-    );
-
-    if (this.statsSection?.nativeElement) {
-      obs.observe(this.statsSection.nativeElement);
-    }
-  }
-
-  private animateStats() {
-    const duration = 1200; // ms
-    const frames = Math.round(duration / 16);
-    this.stats.forEach((stat) => {
-      let frame = 0;
-      const step = () => {
-        frame++;
-        stat.display = Math.round((frame / frames) * stat.value);
-        if (frame < frames) requestAnimationFrame(step);
-        else stat.display = stat.value;
-      };
-      requestAnimationFrame(step);
-    });
-  }
-
-  // ------------ Testimonials ------------
-  testimonials = [
-    {
-      img: '/images/06 -Image containerrr.png',
-      name: 'Alex',
-      role: 'Home Owner',
-      text: 'Lorem ipsum dolor sit amet consectetur. Eget non auctor laoreet mauris id proin tincidunt tristique nam. Amet luctus vel tincidunt vulputate et purus feugiat.',
-    },
-  ];
-  tIndex = 0;
-  prevTest() {
-    this.tIndex =
-      (this.tIndex - 1 + this.testimonials.length) % this.testimonials.length;
-  }
-  nextTest() {
-    this.tIndex = (this.tIndex + 1) % this.testimonials.length;
-  }
-  currentTest() {
-    return this.testimonials[this.tIndex];
-  }
-
-  // Use assets/ not a leading slash
+  /* ------------ Hero (top background) ------------ */
   bgUrl: string = '/images/hero.jpg';
 
-  //section of services.
-  //icons
-  faPrefix = 'fa';
+  /* ------------ Contact form ------------ */
+  private fb = inject(FormBuilder);
+  form = this.fb.group({
+    firstName: ['', Validators.required],
+    lastName: ['', Validators.required],
+    phone: ['', [Validators.required, Validators.pattern(/^\+?[0-9\s-]{7,}$/)]],
+    email: ['', [Validators.required, Validators.email]],
+    address: [''],
+    message: [''],
+  });
+  isInvalid(control: string) {
+    const c = this.form.get(control);
+    return !!c && c.invalid && (c.dirty || c.touched);
+  }
+  submit() {
+    if (this.form.invalid) {
+      this.form.markAllAsTouched();
+      return;
+    }
+    console.log('Submitted form:', this.form.value);
+    alert('Submitted!');
+    this.form.reset();
+  }
 
+  /* ------------ Services (icons grid) ------------ */
+  faPrefix = 'fa';
   services = [
     {
       title: 'Plumbing Installation',
@@ -139,14 +104,28 @@ export class Home implements AfterViewInit {
     },
   ];
 
-  //mothhly / annual
-  billing: 'monthly' | 'annual' = 'monthly';
+  /* ------------ About / Benefits (HeroSplit component) ------------ */
+  about = {
+    title: 'Taking regular plumbing care will save you time and money',
+    description:
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.',
+    imageSrc: '/images/waterandcup.jpg',
+    imageAlt: 'Plumbing care',
+    bullets: [
+      { text: 'Praesent Sodales Orci' },
+      { text: 'Curabitur Dignissim' },
+      { text: 'Nulla Condimentum' },
+    ],
+    primaryCta: { label: 'More About Us', link: '/about' },
+    reverse: false, // الصورة يسار والنص يمين (زي عندك)
+  };
 
-  plans = [
+  /* ------------ Pricing (with monthly/yearly toggle) ------------ */
+  plansData: Plan[] = [
     {
       name: 'Residential Plumbing',
-      prices: { monthly: 199, annual: 199 * 10 }, // adjust if you like
-      featured: false,
+      priceMonthly: 199,
+      priceYearly: 1990,
       features: [
         'Free Diagnostics & Consultation',
         'Plumbing Repairs',
@@ -155,11 +134,12 @@ export class Home implements AfterViewInit {
         'Trenchless Sewer Replacement',
         'Heater Installation & Replacement, Repair',
       ],
+      cta: { label: 'Get Started', link: '/checkout?plan=residential' },
     },
     {
       name: 'Commercial Plumbing',
-      prices: { monthly: 499, annual: 499 * 10 },
-      featured: true, // center card
+      priceMonthly: 499,
+      priceYearly: 4990,
       features: [
         'Installations, Repairs, And Replacements',
         'Leak Detection And Repair',
@@ -168,11 +148,13 @@ export class Home implements AfterViewInit {
         'Plumbing Inspections & Maintenance',
         'Heater Installation & Replacement, Repair',
       ],
+      cta: { label: 'Get Started', link: '/checkout?plan=commercial' },
+      highlighted: true,
     },
     {
       name: 'Service & Repair',
-      prices: { monthly: 399, annual: 399 * 10 },
-      featured: false,
+      priceMonthly: 399,
+      priceYearly: 3990,
       features: [
         'Replace Spare Parts',
         'Maintenance Services',
@@ -181,105 +163,107 @@ export class Home implements AfterViewInit {
         'Toilet Repair, Sewer Repair & Leak Repair',
         'Heater Installation & Replacement, Repair',
       ],
+      cta: { label: 'Get Started', link: '/checkout?plan=service' },
     },
   ];
 
-  getPrice(p: any) {
-    return this.billing === 'monthly' ? p.prices.monthly : p.prices.annual;
-  }
-  get priceSuffix() {
-    return this.billing === 'monthly' ? '/Month' : '/Year';
-  }
-  trackByIndex(i: number) {
-    return i;
-  }
-
-  // Reactive form
-  private fb = inject(FormBuilder);
-  form = this.fb.group({
-    firstName: ['', Validators.required],
-    lastName: ['', Validators.required],
-    phone: ['', [Validators.required, Validators.pattern(/^\+?[0-9\s-]{7,}$/)]],
-    email: ['', [Validators.required, Validators.email]],
-    address: [''],
-    message: [''],
-  });
-
-  // Tabs
-  categories = [
-    { key: 'all', label: 'All Projects' },
-    { key: 'commercial', label: 'Commercial Services' },
-    { key: 'residential', label: 'Residential Services' },
-    { key: 'emergency', label: 'Emergency Services' },
+  /* ------------ Recent Works (WorkGrid component) ------------ */
+  workCategories: WorkCategory[] = [
+    { id: 'commercial', label: 'Commercial Services' },
+    { id: 'residential', label: 'Residential Services' },
+    { id: 'emergency', label: 'Emergency Services' },
   ];
-  activeCat: 'all' | 'commercial' | 'residential' | 'emergency' = 'all';
-
-  // Projects (use your real images)
-  projects = [
+  workItems: WorkItem[] = [
     {
+      id: 1,
       title: 'Water Line Repair',
-      tag: 'Plumbing',
+      image: '/images/RecentWorks1.jpg',
       category: 'commercial',
-      img: '/images/04 - Image-Container.png',
     },
     {
+      id: 2,
       title: 'Leak Fix & Piping',
-      tag: 'Maintenance',
+      image: '/images/05 - Image-Containerr.png',
       category: 'residential',
-      img: '/images/05 - Image-Containerr.png',
     },
     {
+      id: 3,
       title: 'Drain Cleaning',
-      tag: 'Plumbing',
+      image: '/images/thirdone.jpg',
       category: 'commercial',
-      img: '/images/thirdone.jpg',
     },
   ];
 
-  sliderIndex = 0;
+  /* ------------ Stats (animated counters on viewport) ------------ */
+  @ViewChild('statsSection', { static: false })
+  statsSection!: ElementRef<HTMLDivElement>;
+  statsAnimated = false;
 
-  get filteredProjects() {
-    return this.activeCat === 'all'
-      ? this.projects
-      : this.projects.filter((p) => p.category === this.activeCat);
-  }
-  get maxIndex() {
-    return Math.max(0, this.filteredProjects.length - 3);
-  }
-  visibleProjects() {
-    return this.filteredProjects.slice(this.sliderIndex, this.sliderIndex + 3);
-  }
-  setCategory(k: string) {
-    this.activeCat = k as 'all' | 'commercial' | 'residential' | 'emergency';
-    this.sliderIndex = 0; // reset slider on tab change
-  }
-  prev() {
-    this.sliderIndex = Math.max(0, this.sliderIndex - 1);
-  }
-  next() {
-    this.sliderIndex = Math.min(this.maxIndex, this.sliderIndex + 1);
-  }
-  trackByIdx(i: number) {
-    return i;
-  }
+  stats = [
+    {
+      label: 'Happy Customers',
+      value: 1200,
+      icon: 'fa-people-group',
+      display: 0,
+    },
+    { label: '5-Star Reviews', value: 8714, icon: 'fa-star', display: 0 },
+    { label: 'Projects Served', value: 1600, icon: 'fa-building', display: 0 },
+    { label: 'Professionals', value: 500, icon: 'fa-user-gear', display: 0 },
+  ];
 
-  // Helper for template validation classes
-  isInvalid(control: string) {
-    const c = this.form.get(control);
-    return !!c && c.invalid && (c.dirty || c.touched);
-  }
-
-  // Dummy submit (no backend)
-  submit() {
-    if (this.form.invalid) {
-      this.form.markAllAsTouched();
-      return;
+  ngAfterViewInit() {
+    const obs = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((e) => e.isIntersecting) && !this.statsAnimated) {
+          this.statsAnimated = true;
+          this.animateStats();
+          obs.disconnect();
+        }
+      },
+      { threshold: 0.3 }
+    );
+    if (this.statsSection?.nativeElement) {
+      obs.observe(this.statsSection.nativeElement);
     }
-    console.log('Submitted form:', this.form.value); // no backend
-    alert('Submitted!');
-    this.form.reset();
   }
-  /* ====== FAQ (Q&A) ====== */
+
+  private animateStats() {
+    const duration = 1200; // ms
+    const frames = Math.round(duration / 16);
+    this.stats.forEach((stat) => {
+      let frame = 0;
+      const step = () => {
+        frame++;
+        stat.display = Math.round((frame / frames) * stat.value);
+        if (frame < frames) requestAnimationFrame(step);
+        else stat.display = stat.value;
+      };
+      requestAnimationFrame(step);
+    });
+  }
+
+  /* ------------ Testimonials (keep as is) ------------ */
+  testimonials = [
+    {
+      img: '/images/06 -Image containerrr.png',
+      name: 'Alex',
+      role: 'Home Owner',
+      text: 'Lorem ipsum dolor sit amet consectetur. Eget non auctor laoreet mauris id proin tincidunt tristique nam. Amet luctus vel tincidunt vulputate et purus feugiat.',
+    },
+  ];
+  tIndex = 0;
+  prevTest() {
+    this.tIndex =
+      (this.tIndex - 1 + this.testimonials.length) % this.testimonials.length;
+  }
+  nextTest() {
+    this.tIndex = (this.tIndex + 1) % this.testimonials.length;
+  }
+  currentTest() {
+    return this.testimonials[this.tIndex];
+  }
+
+  /* ------------ FAQ ------------ */
   faqs: Array<{ q: string; a: string }> = [
     {
       q: 'How much does plumbing repair cost?',
@@ -305,7 +289,6 @@ export class Home implements AfterViewInit {
       q: 'How long a new installation will take?',
       a: 'Simple installs finish same day. Larger systems may take 1–2 days.',
     },
-
     {
       q: 'What do HVAC contractors do?',
       a: 'Licensed pros who install, maintain, and repair heating, cooling, and ventilation systems. We troubleshoot, replace parts, and optimize efficiency.',
@@ -319,8 +302,6 @@ export class Home implements AfterViewInit {
       a: 'Emergency rates reflect priority scheduling outside normal hours; we still provide a clear quote before work.',
     },
   ];
-
-  // which FAQ is open in the right column (use global index from the array above)
   openFaqIndex: number | null = 6;
   toggleFaq(i: number) {
     this.openFaqIndex = this.openFaqIndex === i ? null : i;
@@ -329,7 +310,7 @@ export class Home implements AfterViewInit {
     return this.openFaqIndex === i;
   }
 
-  /* ====== Newsletter (no backend) ====== */
+  /* ------------ Newsletter ------------ */
   newsletterForm = this.fb.group({
     email: ['', [Validators.required, Validators.email]],
   });
@@ -339,7 +320,7 @@ export class Home implements AfterViewInit {
       return;
     }
     console.log('Newsletter:', this.newsletterForm.value.email);
-    alert('Subscribed!'); // no backend
+    alert('Subscribed!');
     this.newsletterForm.reset();
   }
 }

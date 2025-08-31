@@ -1,0 +1,366 @@
+<!-- HERO (background + overlay) -->
+<section class="relative isolate overflow-hidden">
+  <!-- Full-bleed background -->
+  <div class="absolute inset-0 -z-10">
+    <img
+      [src]="bgUrl"
+      alt="Plumbing background"
+      class="w-full h-full object-cover"
+    />
+    <!-- Blue tint overlay -->
+    <div class="absolute inset-0 bg-blue-900/60"></div>
+  </div>
+
+  <!-- Content -->
+  <div class="mx-auto max-w-7xl px-4 py-20 sm:py-24 md:py-28">
+    <!-- Two-column layout on large screens -->
+    <div class="grid items-center gap-10 lg:grid-cols-2">
+      <!-- Left: text content -->
+      <div class="text-white text-center lg:text-left">
+        <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold leading-tight">
+          Plumbing Experts Right<br class="hidden sm:inline" />
+          at Your Doorstep
+        </h1>
+
+        <p
+          class="mt-4 text-white/90 text-base sm:text-lg max-w-2xl lg:max-w-xl mx-auto lg:mx-0"
+        >
+          Our plumbers are the most recognized professionals globally because
+          we're committed to excellent service, and nothing wears on homeowners
+          like the idea of handling plumbing problems.
+        </p>
+
+        <!-- CTAs -->
+        <div
+          class="mt-8 flex flex-col sm:flex-row items-center lg:items-start justify-center lg:justify-start gap-4"
+        >
+          <a
+            routerLink="/estimate"
+            class="inline-flex items-center justify-center rounded-xl px-8 py-4 text-base font-semibold text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-300 shadow-lg transition"
+          >
+            Request a Job Estimate
+          </a>
+
+          <a
+            routerLink="/pricing"
+            class="inline-flex items-center justify-center rounded-xl px-8 py-4 text-base font-semibold text-white border border-white/70 bg-transparent hover:bg-white/10 focus:outline-none focus:ring-4 focus:ring-white/40 transition"
+          >
+            Pricing Plans
+          </a>
+        </div>
+      </div>
+
+      <!-- Right: plumber image -->
+      <div class="relative flex justify-center lg:justify-end">
+        <img
+          [src]="personUrl"
+          alt="Smiling plumber with wrench"
+          class="w-[70%] max-w-[380px] sm:max-w-[420px] lg:max-w-[460px] xl:max-w-[520px] drop-shadow-2xl select-none pointer-events-none"
+          draggable="false"
+        />
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES SECTION -->
+<section class="mx-auto max-w-7xl px-4 py-16">
+  <div class="text-center">
+    <span class="inline-flex items-center gap-3 text-blue-600 font-medium">
+      {{ eyebrow }} <span class="inline-block h-px w-10 bg-blue-500"></span>
+    </span>
+    <h2 class="mt-3 text-3xl sm:text-4xl md:text-5xl font-bold text-slate-900">
+      {{ heading }}
+    </h2>
+  </div>
+
+  <!-- Cards grid -->
+  <div class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+    <article
+      *ngFor="let s of services; trackBy: trackByTitle"
+      class="group rounded-xl overflow-hidden ring-1"
+      [ngClass]="
+        s.highlight
+          ? 'bg-blue-600 text-white ring-blue-600'
+          : 'bg-white text-slate-900 ring-slate-200'
+      "
+    >
+      <!-- Top image -->
+      <img
+        [src]="s.img"
+        [alt]="s.title"
+        class="w-full h-44 sm:h-48 object-cover"
+      />
+
+      <!-- Body -->
+      <div class="p-6">
+        <!-- Icon -->
+        <div
+          class="text-3xl mb-4"
+          [ngClass]="s.highlight ? 'text-white' : 'text-blue-600'"
+        >
+          <i class="fa" [ngClass]="s.icon"></i>
+        </div>
+
+        <!-- Title -->
+        <h3
+          class="text-xl font-semibold"
+          [ngClass]="s.highlight ? 'text-white' : 'text-slate-900'"
+        >
+          {{ s.title }}
+        </h3>
+
+        <!-- Description -->
+        <p
+          class="mt-3 text-sm leading-relaxed"
+          [ngClass]="s.highlight ? 'text-white/90' : 'text-slate-600'"
+        >
+          {{ s.desc }}
+        </p>
+
+        <!-- Learn More -->
+        <div class="mt-6">
+          <a
+            [routerLink]="s.link"
+            class="inline-flex items-center gap-3 font-semibold"
+            [ngClass]="s.highlight ? 'text-white' : 'text-blue-700'"
+          >
+            Learn More
+            <span class="transition-transform group-hover:translate-x-1">
+              <i class="fa fa-arrow-right-long"></i>
+            </span>
+          </a>
+        </div>
+
+        <!-- Bottom accent line -->
+        <div
+          *ngIf="!s.highlight"
+          class="mt-6 h-1 w-24 rounded-full bg-blue-200"
+        ></div>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- 1) Hero Split -->
+<app-hero-split
+  [eyebrow]="hero.eyebrow"
+  [title]="hero.title"
+  [description]="hero.description"
+  [imageSrc]="hero.imageSrc"
+  [imageAlt]="hero.imageAlt"
+  [bullets]="hero.bullets"
+  [primaryCta]="hero.primaryCta"
+  [reverse]="hero.reverse"
+>
+</app-hero-split>
+
+<!-- 2) Pricing Plans -->
+<app-pricing-plans
+  eyebrow="Pricing Plans"
+  heading="Affordable Pricing Plans"
+  [plans]="plans"
+>
+</app-pricing-plans>
+
+<!-- 3) Recent Works -->
+<app-work-grid
+  eyebrow="Featured Projects"
+  heading="Our Recent Works"
+  [categories]="categories"
+  [items]="works"
+>
+</app-work-grid>
+
+<!-- 4) Stats -->
+<app-stats-bar [stats]="stats" [durationMs]="1200"> </app-stats-bar>
+
+<!-- ===================== TESTIMONIALS ===================== -->
+<section class="mx-auto max-w-7xl px-4 py-20">
+  <!-- Header -->
+  <div class="text-center">
+    <span class="inline-flex items-center gap-3 text-blue-600 font-medium">
+      Customer Testimonial
+      <span class="inline-block h-px w-10 bg-blue-500"></span>
+    </span>
+    <h2 class="mt-3 text-3xl sm:text-4xl md:text-5xl font-bold text-slate-900">
+      Our Partner & Customer Give<br class="hidden sm:block" />
+      The Best Review For Us
+    </h2>
+  </div>
+
+  <!-- Slider controls -->
+  <div class="relative mt-10">
+    <!-- Left arrow -->
+    <button
+      type="button"
+      (click)="prevReview()"
+      class="hidden md:flex absolute -left-6 top-1/2 -translate-y-1/2 h-10 w-10 items-center justify-center rounded-full border border-blue-300 text-blue-600 hover:bg-blue-50"
+      aria-label="Previous testimonials"
+    >
+      <i class="fa-solid fa-chevron-left"></i>
+    </button>
+
+    <!-- Cards -->
+    <div class="grid gap-6 md:grid-cols-3">
+      <article
+        *ngFor="let r of visibleReviews(); trackBy: trackByRev"
+        class="relative rounded-xl bg-slate-50 ring-1 ring-blue-100/70 shadow-sm overflow-hidden flex flex-col"
+      >
+        <div class="p-6">
+          <!-- Rating stars -->
+          <div class="flex items-center gap-1 text-blue-600">
+            <i class="fa-solid fa-star" *ngFor="let s of [1, 2, 3, 4, 5]"></i>
+          </div>
+
+          <!-- Review text -->
+          <p class="mt-4 text-slate-700 leading-relaxed">
+            {{ r.text }}
+          </p>
+
+          <!-- Author -->
+          <div class="mt-6 flex items-center gap-3">
+            <img
+              [src]="r.avatar"
+              alt="{{ r.name }}"
+              class="h-10 w-10 rounded-full object-cover ring-2 ring-white shadow"
+            />
+            <div>
+              <div class="font-semibold text-slate-900">{{ r.name }}</div>
+              <div class="text-slate-600 text-sm">{{ r.role }}</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bottom blue accent -->
+        <div class="mt-auto h-1.5 w-full bg-blue-500"></div>
+      </article>
+    </div>
+
+    <!-- Right arrow -->
+    <button
+      type="button"
+      (click)="nextReview()"
+      class="hidden md:flex absolute -right-6 top-1/2 -translate-y-1/2 h-10 w-10 items-center justify-center rounded-full bg-blue-600 text-white hover:bg-blue-700"
+      aria-label="Next testimonials"
+    >
+      <i class="fa-solid fa-chevron-right"></i>
+    </button>
+  </div>
+</section>
+
+<!-- ===================== PARTNERS ===================== -->
+<section class="mx-auto max-w-7xl px-4 py-20">
+  <!-- Header (left aligned) -->
+  <div class="mb-8">
+    <span class="inline-flex items-center gap-3 text-blue-600 font-medium">
+      Worked With <span class="inline-block h-px w-10 bg-blue-500"></span>
+    </span>
+    <h3 class="mt-2 text-2xl sm:text-3xl font-bold text-slate-900">
+      Our Partners
+    </h3>
+  </div>
+
+  <!-- Fixed-width grid exactly like the reference -->
+  <div
+    class="mx-auto max-w-[1104px] grid grid-cols-2 md:grid-cols-4 place-items-center gap-y-10"
+  >
+    <!-- one cell per logo (276 x 85) -->
+    <ng-container *ngFor="let l of logos; trackBy: trackByLogo">
+      <div class="w-[276px] h-[85px] flex items-center justify-center">
+        <img
+          [src]="l.src"
+          [alt]="l.name"
+          loading="lazy"
+          class="h-8 md:h-10 w-auto object-contain opacity-70 hover:opacity-100 transition-opacity duration-300 grayscale hover:grayscale-0"
+        />
+      </div>
+    </ng-container>
+  </div>
+</section>
+
+<!-- ===================== BLOG / EMERGENCY TIPS ===================== -->
+<section class="bg-blue-50/60">
+  <div class="mx-auto max-w-7xl px-4 py-16">
+    <!-- Eyebrow + Heading + Sub -->
+    <div class="mb-6">
+      <span class="inline-flex items-center gap-3 text-blue-600 font-medium">
+        Our Blog <span class="inline-block h-px w-10 bg-blue-500"></span>
+      </span>
+      <h2 class="mt-2 text-3xl sm:text-4xl font-bold text-slate-900">
+        Emergency Tips & Tricks
+      </h2>
+      <p class="mt-2 text-slate-600 max-w-3xl">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus
+        semper placerat metus.
+      </p>
+    </div>
+
+    <!-- Cards grid (2 x 2 like the reference) -->
+    <div class="grid gap-5 md:gap-6 md:grid-cols-2">
+      <article
+        *ngFor="let p of posts; trackBy: trackByPost"
+        class="rounded-xl bg-white ring-1 ring-blue-100 shadow-sm overflow-hidden"
+      >
+        <!-- Card layout: image left, content right on >=sm -->
+        <div class="grid sm:grid-cols-5">
+          <!-- Image -->
+          <div class="relative sm:col-span-2">
+            <img
+              [src]="p.img"
+              [alt]="p.title"
+              class="w-full h-40 sm:h-full object-cover"
+            />
+            <!-- Tag badge -->
+            <span
+              class="absolute left-3 bottom-3 rounded-md bg-blue-600 text-white text-[11px] font-semibold tracking-wide px-3 py-1"
+            >
+              {{ p.tag }}
+            </span>
+          </div>
+
+          <!-- Text content -->
+          <div class="p-5 sm:p-6 sm:col-span-3">
+            <!-- Title -->
+            <h3 class="text-lg md:text-xl font-semibold text-slate-900">
+              {{ p.title }}
+            </h3>
+
+            <!-- Meta (date) -->
+            <div
+              class="mt-2 flex items-center gap-2 text-blue-700 text-sm font-medium"
+            >
+              <i class="fa-regular fa-calendar"></i>
+              <span>{{ p.date }}</span>
+            </div>
+
+            <!-- Excerpt -->
+            <p class="mt-2 text-slate-600 text-sm">
+              {{ p.excerpt }}
+            </p>
+
+            <!-- Read more -->
+            <a
+              [routerLink]="p.link"
+              class="mt-3 inline-flex items-center gap-2 text-blue-700 font-semibold hover:gap-3 transition-all"
+            >
+              Read More
+              <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
+            </a>
+          </div>
+        </div>
+      </article>
+    </div>
+
+    <!-- CTA button -->
+    <div class="mt-8 flex justify-center">
+      <a
+        routerLink="/blog"
+        class="inline-flex items-center gap-2 rounded-xl bg-blue-600 px-6 py-3 font-semibold text-white hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-200"
+      >
+        See More Blogs
+        <i class="fa-solid fa-arrow-right text-sm"></i>
+      </a>
+    </div>
+  </div>
+</section>
